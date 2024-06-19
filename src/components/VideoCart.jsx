@@ -22,7 +22,7 @@ const VideoCart = ({ item }) => {
             />
             <div>
                 <div className="flex mt-2">
-                    <Avatar src={ytIcon} size={35} round={true} />
+                    <Avatar src={ytIcon} size={50} round={true} />
                     <div className="ml-2">
                         <h1 className="font-bold">{item.snippet.title}</h1>
                         <p className="text-sm text-gray-500">{item.snippet.channelTitle}</p>
