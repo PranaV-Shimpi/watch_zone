@@ -10,7 +10,6 @@ const Navbar = () => {
   return (
     <div className="flex fixed top-0 justify-center items-center w-[100%] z-10 bg-white">
       <div className="flex w-[96%] py-3 justify-between items-center">
-        
         <div className="flex items-center ">
           <GiHamburgerMenu size="24px" className="cursor-pointer" />
           <img className="px-4" width={"180px"} src={logo} alt="logo" />
@@ -39,7 +38,6 @@ const Navbar = () => {
           />
         </div>
       </div>
-
     </div>
   );
 };
