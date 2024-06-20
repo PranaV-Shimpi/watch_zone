@@ -9,6 +9,7 @@ import { LuSendHorizonal } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../utils/chatSlice";
 import { getSingleVideo, getYoutubeChannelName } from "../functions/api";
+import LiveChat from "./LiveChat";
 
 const Watch = () => {
   const [input, setInput] = useState("");
@@ -63,7 +64,10 @@ const Watch = () => {
             <div className="flex items-center w-[45%] justify-between mt-2">
               <div className="flex items-center justify-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full">
                 <AiOutlineLike size="20px" className="mr-1" />
-                <span className="mr-3">{singleVideo?.statistics?.likeCount}</span>|
+                <span className="mr-3">
+                  {singleVideo?.statistics?.likeCount}
+                </span>
+                |
                 <AiOutlineDislike className="ml-2" size="20px" />
               </div>
               <div className="flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full">
@@ -77,14 +81,14 @@ const Watch = () => {
             </div>
           </div>
         </div>
-        <div className="w-[100%] border border-gray-300 ml-8 rounded-lg h-fit p-4">
-          <div className="flex justify-between items-center">
-            <h1>Top Chat</h1>
+        <div className="w-[100%] border border-gray-300 ml-8 rounded-lg h-fit">
+          <div className="flex justify-between items-center text-center bg-gray-200">
+            <h1 className="mx-2">Top Chat</h1>
             <BsThreeDotsVertical />
           </div>
-          {/* <div className='overflow-y-auto h-[28rem] flex flex-col-reverse'>
-                        <LiveChat />
-                    </div> */}
+          <div className="overflow-y-auto h-[28rem] flex flex-col-reverse">
+            <LiveChat />
+          </div>
           <div className="flex items-center justify-between border-t p-2">
             <div className="flex items-center w-[90%]">
               <div>
