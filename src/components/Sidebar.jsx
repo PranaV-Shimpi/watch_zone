@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { RiHome3Line } from "react-icons/ri";
 import { FaGamepad } from "react-icons/fa";
 import { IoMusicalNotesSharp } from "react-icons/io5";
@@ -18,16 +19,8 @@ import {
 } from "../utils/appSlice";
 
 const sidebarItem = [
-  {
-    icons: <RiHome3Line size="24px" />,
-    title: "Home",
-    category: "All",
-  },
-  {
-    icons: <FaGamepad size="24px" />,
-    title: "Gaming",
-    category: "Gaming",
-  },
+  { icons: <RiHome3Line size="24px" />, title: "Home", category: "All" },
+  { icons: <FaGamepad size="24px" />, title: "Gaming", category: "Gaming" },
   {
     icons: <IoMusicalNotesSharp size="24px" />,
     title: "Music",
@@ -58,31 +51,24 @@ const sidebarItem = [
     title: "Weather",
     category: "Weather",
   },
-  {
-    icons: <GiGears size="24px" />,
-    title: "Tech",
-    category: "Tech",
-  },
-  {
-    icons: <IoLogoEuro size="24px" />,
-    title: "Finance",
-    category: "Finance",
-  },
-  {
-    icons: <BiNews size="24px" />,
-    title: "News",
-    category: "News",
-  },
+  { icons: <GiGears size="24px" />, title: "Tech", category: "Tech" },
+  { icons: <IoLogoEuro size="24px" />, title: "Finance", category: "Finance" },
+  { icons: <BiNews size="24px" />, title: "News", category: "News" },
 ];
 
 const Sidebar = () => {
   const open = useSelector((store) => store.app.open);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     dispatch(setCategory(category));
     dispatch(setSelectedCategory(category));
     dispatch(setFilteredVideos([])); // Clear previous filtered videos
+
+    if (window.location.pathname.includes("/watch")) {
+      navigate("/");
+    }
   };
 
   return (
