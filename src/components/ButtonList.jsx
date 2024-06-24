@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCategory } from "../utils/appSlice";
+import '../index.css'
 
 const buttonList = [
   "All",
@@ -21,6 +22,8 @@ const buttonList = [
   "Computer Programming",
   "Netlify",
   "Coding",
+  "FAANG",
+  "DSA",
 ];
 
 const ButtonList = () => {
@@ -36,7 +39,7 @@ const ButtonList = () => {
   console.log(active);
 
   return (
-    <div className="flex w-full overflow-y-scroll overflow-x-auto no-scrollbar my-1">
+    <div className="flex w-[100%] overflow-x-scroll no-scrollbar my-1">
       {buttonList.map((buttonName, index) => {
         return (
           <div key={index}>

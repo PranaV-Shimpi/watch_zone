@@ -36,7 +36,7 @@ const Watch = () => {
 
   return (
     <div className="flex ml-4 w-[100%] mt-2">
-      <div className="flex w-[88%]">
+      <div className="flex w-[97%]">
         <div>
           <iframe
             width="900"
@@ -86,12 +86,12 @@ const Watch = () => {
             <h1 className="mx-2">Top Chat</h1>
             <BsThreeDotsVertical />
           </div>
-          <div className="overflow-y-auto h-[28rem] flex flex-col-reverse">
+          <div className=".no-scrollbar overflow-y-auto h-[28rem] flex flex-col-reverse">
             <LiveChat />
           </div>
-          <div className="flex items-center justify-between border-t p-2">
-            <div className="flex items-center w-[90%]">
-              <div>
+          <div className="flex items-center justify-between border-t p-2 w-full">
+            <div className="flex items-center w-full">
+              <div className="mr-2">
                 <Avatar
                   src="https://cdn4.sharechat.com/beautifulgirlprofilepicture_2fd82a95_1601311911497_cmprsd_40.jpg?tenant=sc&referrer=pwa-sharechat-service&f=rsd_40.jpg"
                   size={35}
@@ -101,11 +101,11 @@ const Watch = () => {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="border-b border-gray-300 outline-none ml-2"
+                className="flex-1 border-b border-gray-300 outline-none px-2 py-1"
                 type="text"
                 placeholder="Send message..."
               />
-              <div className="bg-gray-200 cursor-pointer p-2 rounded-full">
+              <div className="bg-gray-200 cursor-pointer p-2 rounded-full ml-2">
                 <LuSendHorizonal onClick={sendMessage} />
               </div>
             </div>
