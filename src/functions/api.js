@@ -56,3 +56,16 @@ export const fetchComments = async (videoId) => {
     return [];
   }
 };
+
+// Function to fetch video description by videoId
+export const fetchVideoDescription = async (videoId) => {
+  try {
+    const res = await axios.get(
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`
+    );
+    return res?.data?.items[0]?.snippet?.description || "";
+  } catch (error) {
+    console.error("Error fetching video description:", error);
+    return "";
+  }
+};

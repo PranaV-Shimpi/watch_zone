@@ -15,6 +15,8 @@ import CommentList from "./CommentList"; // Import CommentList component
 const Watch = () => {
   const [input, setInput] = useState("");
   const [singleVideo, setSingleVideo] = useState(null);
+  const [videoDescription, setVideoDescription] = useState("");
+  const [fullDescriptionVisible, setFullDescriptionVisible] = useState(false); // State to track if full description is visible
   const [searchParams] = useSearchParams();
   const videoId = searchParams.get("v");
   const [ytIcon, setYtIcon] = useState("");
@@ -26,9 +28,31 @@ const Watch = () => {
       setSingleVideo(video);
       const iconUrl = await getYoutubeChannelName(video.snippet.channelId);
       setYtIcon(iconUrl);
+      // Set initial short description
+      setVideoDescription(`${video.snippet.description.substring(0, 200)}...`);
     };
     fetchVideo();
   }, [videoId]);
+
+  const loadFullDescription = () => {
+    setVideoDescription(singleVideo.snippet.description);
+    setFullDescriptionVisible(true);
+  };
+
+  const loadShortDescription = () => {
+    setVideoDescription(
+      `${singleVideo.snippet.description.substring(0, 200)}...`
+    );
+    setFullDescriptionVisible(false);
+  };
+
+  const toggleDescription = () => {
+    if (fullDescriptionVisible) {
+      loadShortDescription();
+    } else {
+      loadFullDescription();
+    }
+  };
 
   const sendMessage = () => {
     dispatch(setMessage({ name: "Radhe", message: input }));
@@ -81,7 +105,30 @@ const Watch = () => {
               </div>
             </div>
           </div>
+          {/* Display video description */}
+          <div className="mt-4">
+            <h2 className="font-bold text-lg mb-2">Video Description</h2>
+            <p className="text-sm">
+              {videoDescription}{" "}
+              {fullDescriptionVisible ? (
+                <button
+                  className="text-blue-500 hover:underline"
+                  onClick={loadShortDescription}
+                >
+                  Show less
+                </button>
+              ) : (
+                <button
+                  className="text-blue-500 hover:underline"
+                  onClick={loadFullDescription}
+                >
+                  Show more
+                </button>
+              )}
+            </p>
+          </div>
           {/* Add the CommentList component */}
+          <h2 className="font-bold text-lg mt-4">Comments</h2>
           <CommentList videoId={videoId} />
         </div>
         <div className="w-[100%] border border-gray-300 ml-8 rounded-lg h-fit">
@@ -120,4 +167,3 @@ const Watch = () => {
 };
 
 export default Watch;
-
