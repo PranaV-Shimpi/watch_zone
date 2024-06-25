@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setMessage } from "../utils/chatSlice";
 import { getSingleVideo, getYoutubeChannelName } from "../functions/api";
 import LiveChat from "./LiveChat";
+import CommentList from "./CommentList"; // Import CommentList component
 
 const Watch = () => {
   const [input, setInput] = useState("");
@@ -80,6 +81,8 @@ const Watch = () => {
               </div>
             </div>
           </div>
+          {/* Add the CommentList component */}
+          <CommentList videoId={videoId} />
         </div>
         <div className="w-[100%] border border-gray-300 ml-8 rounded-lg h-fit">
           <div className="flex justify-between items-center text-center bg-gray-200">
@@ -117,3 +120,4 @@ const Watch = () => {
 };
 
 export default Watch;
+

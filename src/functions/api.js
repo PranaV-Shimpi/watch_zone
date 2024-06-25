@@ -44,3 +44,15 @@ export const getYoutubeChannelName = async (channelId) => {
     console.error(error);
   }
 };
+
+
+// Function to fetch comments for a video
+export const fetchComments = async (videoId) => {
+  try {
+    const res = await axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${API_KEY}`);
+    return res.data.items;
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return [];
+  }
+};
