@@ -1,34 +1,23 @@
-import Body from "./components/Body";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Watch from "./components/Watch";
+import Body from "./components/Body";
 import Feed from "./components/Feed";
-
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <Body />,
-    children: [
-      {
-        path: "/",
-        element: <Feed />
-      },
-      {
-
-        path: "/watch",
-        element: <Watch />
-      }
-    ]
-  }
-])
+import Watch from "./components/Watch";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <RouterProvider router={appRouter} />
-    </div>
+    <Router>
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Body />}>
+            <Route index element={<Feed />} />
+            <Route path="watch" element={<Watch />} />
+          </Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
