@@ -12,7 +12,7 @@ const RelatedVideos = ({ relatedVideos, onVideoClick }) => {
         >
           <div className="flex">
             <img
-              className="w-40 h-24 object-cover"
+              className="w-40 h-24 object-cover rounded-lg"
               src={item.snippet.thumbnails.medium.url}
               alt={item.snippet.title}
             />
