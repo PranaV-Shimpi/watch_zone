@@ -8,18 +8,21 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuSendHorizonal } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../utils/chatSlice";
-import { getSingleVideo, getYoutubeChannelName } from "../functions/api";
+import { getSingleVideo, getYoutubeChannelName, fetchRelatedVideos } from "../functions/api";
 import LiveChat from "./LiveChat";
-import CommentList from "./CommentList"; // Import CommentList component
+import CommentList from "./CommentList";
+import RelatedVideos from "./RelatedVideos"; // Import RelatedVideos component
 
 const Watch = () => {
   const [input, setInput] = useState("");
   const [singleVideo, setSingleVideo] = useState(null);
   const [videoDescription, setVideoDescription] = useState("");
-  const [fullDescriptionVisible, setFullDescriptionVisible] = useState(false); // State to track if full description is visible
+  const [fullDescriptionVisible, setFullDescriptionVisible] = useState(false);
   const [searchParams] = useSearchParams();
-  const videoId = searchParams.get("v");
+  const initialVideoId = searchParams.get("v");
+  const [videoId, setVideoId] = useState(initialVideoId); // State to manage current videoId
   const [ytIcon, setYtIcon] = useState("");
+  const [relatedVideos, setRelatedVideos] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,10 +31,16 @@ const Watch = () => {
       setSingleVideo(video);
       const iconUrl = await getYoutubeChannelName(video.snippet.channelId);
       setYtIcon(iconUrl);
-      // Set initial short description
       setVideoDescription(`${video.snippet.description.substring(0, 200)}...`);
     };
+
+    const fetchRelated = async () => {
+      const related = await fetchRelatedVideos(videoId);
+      setRelatedVideos(related.items); // Assuming related videos are stored in 'items' array
+    };
+
     fetchVideo();
+    fetchRelated();
   }, [videoId]);
 
   const loadFullDescription = () => {
@@ -57,6 +66,10 @@ const Watch = () => {
   const sendMessage = () => {
     dispatch(setMessage({ name: "Radhe", message: input }));
     setInput("");
+  };
+
+  const handleVideoClick = async (videoId) => {
+    setVideoId(videoId); // Update videoId state to trigger useEffect fetching new video
   };
 
   return (
@@ -131,35 +144,41 @@ const Watch = () => {
           <h2 className="font-bold text-lg mt-4">Comments</h2>
           <CommentList videoId={videoId} />
         </div>
-        <div className="w-[100%] border border-gray-300 ml-8 rounded-lg h-fit">
-          <div className="flex justify-between items-center text-center bg-gray-200">
-            <h1 className="mx-2">Top Chat</h1>
-            <BsThreeDotsVertical />
-          </div>
-          <div className=".no-scrollbar overflow-y-auto h-[28rem] flex flex-col-reverse">
-            <LiveChat />
-          </div>
-          <div className="flex items-center justify-between border-t p-2 w-full">
-            <div className="flex items-center w-full">
-              <div className="mr-2">
-                <Avatar
-                  src="https://cdn4.sharechat.com/beautifulgirlprofilepicture_2fd82a95_1601311911497_cmprsd_40.jpg?tenant=sc&referrer=pwa-sharechat-service&f=rsd_40.jpg"
-                  size={35}
-                  round={true}
+
+        <div className="w-[100%] ml-8">
+          <div className="border border-gray-300  rounded-lg h-fit">
+            <div className="flex justify-between items-center text-center bg-gray-200">
+              <h1 className="mx-2">Top Chat</h1>
+              <BsThreeDotsVertical />
+            </div>
+            <div className=".no-scrollbar overflow-y-auto h-[28rem] flex flex-col-reverse">
+              <LiveChat />
+            </div>
+            <div className="flex items-center justify-between border-t p-2 w-full">
+              <div className="flex items-center w-full">
+                <div className="mr-2">
+                  <Avatar
+                    src="https://cdn4.sharechat.com/beautifulgirlprofilepicture_2fd82a95_1601311911497_cmprsd_40.jpg?tenant=sc&referrer=pwa-sharechat-service&f=rsd_40.jpg"
+                    size={35}
+                    round={true}
+                  />
+                </div>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="flex-1 border-b border-gray-300 outline-none px-2 py-1"
+                  type="text"
+                  placeholder="Send message..."
                 />
-              </div>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1 border-b border-gray-300 outline-none px-2 py-1"
-                type="text"
-                placeholder="Send message..."
-              />
-              <div className="bg-gray-200 cursor-pointer p-2 rounded-full ml-2">
-                <LuSendHorizonal onClick={sendMessage} />
+                <div className="bg-gray-200 cursor-pointer p-2 rounded-full ml-2">
+                  <LuSendHorizonal onClick={sendMessage} />
+                </div>
               </div>
             </div>
           </div>
+          {/* Display RelatedVideos component */}
+          <h2 className="font-bold text-lg mt-4">Related Videos</h2>
+          <RelatedVideos relatedVideos={relatedVideos} onVideoClick={handleVideoClick} />
         </div>
       </div>
     </div>
@@ -167,3 +186,6 @@ const Watch = () => {
 };
 
 export default Watch;
+
+
+

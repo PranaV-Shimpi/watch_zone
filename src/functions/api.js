@@ -28,7 +28,9 @@ export const fetchVideosByCategory = async (category) => {
 // Function to get a single video details
 export const getSingleVideo = async (videoId) => {
   try {
-    const res = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`);
+    const res = await axios.get(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`
+    );
     return res.data.items[0];
   } catch (error) {
     console.error(error);
@@ -38,18 +40,21 @@ export const getSingleVideo = async (videoId) => {
 // Function to get YouTube channel details
 export const getYoutubeChannelName = async (channelId) => {
   try {
-    const res = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${API_KEY}`);
+    const res = await axios.get(
+      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${API_KEY}`
+    );
     return res.data.items[0].snippet.thumbnails.high.url;
   } catch (error) {
     console.error(error);
   }
 };
 
-
 // Function to fetch comments for a video
 export const fetchComments = async (videoId) => {
   try {
-    const res = await axios.get(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${API_KEY}`);
+    const res = await axios.get(
+      `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${API_KEY}`
+    );
     return res.data.items;
   } catch (error) {
     console.error("Error fetching comments:", error);
@@ -67,5 +72,18 @@ export const fetchVideoDescription = async (videoId) => {
   } catch (error) {
     console.error("Error fetching video description:", error);
     return "";
+  }
+};
+
+// Function to fetch video description by videoId
+export const fetchRelatedVideos = async (videoId) => {
+  try {
+    const response = await axios.get(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&key=${API_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching related videos:", error);
+    return [];
   }
 };
