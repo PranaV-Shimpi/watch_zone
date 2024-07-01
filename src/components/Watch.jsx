@@ -148,7 +148,7 @@ const Watch = () => {
         <div className="w-[100%] ml-8">
           <div className="border border-gray-300  rounded-lg h-fit">
             <div className="flex justify-between items-center text-center bg-gray-200">
-              <h1 className="mx-2">Top Chat</h1>
+              <h1 className="mx-2">Live Chat</h1>
               <BsThreeDotsVertical />
             </div>
             <div className=".no-scrollbar overflow-y-auto h-[28rem] flex flex-col-reverse">
